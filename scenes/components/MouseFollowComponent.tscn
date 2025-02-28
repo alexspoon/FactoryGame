@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuwruvxfqburf"]
+
+[ext_resource type="Script" uid="uid://cww8twl08q5ug" path="res://scripts/components/MouseFollowComponent.cs" id="1_cga5d"]
+
+[node name="MouseFollowComponent" type="Node"]
+script = ExtResource("1_cga5d")

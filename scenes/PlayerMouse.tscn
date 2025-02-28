@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://mr58jopv30w8"]
+
+[ext_resource type="Texture2D" uid="uid://de86x2u44mms5" path="res://assets/sprites/crosshair005.png" id="1_y0nl5"]
+[ext_resource type="PackedScene" uid="uid://cuwruvxfqburf" path="res://scenes/components/MouseFollowComponent.tscn" id="2_js21a"]
+
+[node name="PlayerMouse" type="Node2D"]
+
+[node name="Crosshair" type="Sprite2D" parent="."]
+scale = Vector2(0.64, 0.64)
+texture = ExtResource("1_y0nl5")
+
+[node name="MouseFollowComponent" parent="." instance=ExtResource("2_js21a")]

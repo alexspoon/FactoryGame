@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=3 uid="uid://drx3x3mxxergs"]
+
+[ext_resource type="PackedScene" uid="uid://mr58jopv30w8" path="res://scenes/PlayerMouse.tscn" id="1_0bbpv"]
+[ext_resource type="Texture2D" uid="uid://bkgstnkahw2xn" path="res://assets/sprites/metal_wall_4.png" id="1_elqb8"]
+[ext_resource type="Texture2D" uid="uid://daqk12yenf2u3" path="res://assets/sprites/metal1.png" id="2_rvslj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qnwvq"]
+size = Vector2(16, 15.7949)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0bbpv"]
+size = Vector2(16, 16)
+
+[node name="Main" type="Node2D"]
+
+[node name="PlayerMouse" parent="." instance=ExtResource("1_0bbpv")]
+position = Vector2(576, 320)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Start" type="Node2D" parent="."]
+
+[node name="Walls" type="Node2D" parent="Start"]
+
+[node name="Ceiling" type="StaticBody2D" parent="Start/Walls"]
+position = Vector2(576, 8)
+scale = Vector2(72, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Start/Walls/Ceiling"]
+shape = SubResource("RectangleShape2D_qnwvq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Start/Walls/Ceiling"]
+texture_filter = 3
+scale = Vector2(0.0666666, 0.08)
+texture = ExtResource("1_elqb8")
+region_enabled = true
+region_rect = Rect2(8, 24, 240, 208)
+
+[node name="Floor" type="StaticBody2D" parent="Start/Walls"]
+position = Vector2(576, 640)
+scale = Vector2(72, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Start/Walls/Floor"]
+shape = SubResource("RectangleShape2D_qnwvq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Start/Walls/Floor"]
+texture_filter = 3
+scale = Vector2(0.0666666, 0.08)
+texture = ExtResource("1_elqb8")
+region_enabled = true
+region_rect = Rect2(8, 24, 240, 208)
+
+[node name="LeftWall" type="StaticBody2D" parent="Start/Walls"]
+position = Vector2(8, 320)
+scale = Vector2(1, 39)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Start/Walls/LeftWall"]
+position = Vector2(0, 0.102566)
+shape = SubResource("RectangleShape2D_qnwvq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Start/Walls/LeftWall"]
+texture_filter = 3
+position = Vector2(0, 0.102566)
+scale = Vector2(0.0666666, 0.08)
+texture = ExtResource("1_elqb8")
+region_enabled = true
+region_rect = Rect2(8, 24, 240, 200)
+
+[node name="RightWall" type="StaticBody2D" parent="Start/Walls"]
+position = Vector2(1144, 320)
+scale = Vector2(1, 39)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Start/Walls/RightWall"]
+position = Vector2(0, 0.102566)
+shape = SubResource("RectangleShape2D_qnwvq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Start/Walls/RightWall"]
+texture_filter = 3
+position = Vector2(0, 0.102566)
+scale = Vector2(0.0666666, 0.08)
+texture = ExtResource("1_elqb8")
+region_enabled = true
+region_rect = Rect2(8, 24, 240, 200)
+
+[node name="Props" type="Node2D" parent="Start"]
+
+[node name="Box" type="RigidBody2D" parent="Start/Props"]
+texture_filter = 3
+position = Vector2(512, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Start/Props/Box"]
+shape = SubResource("RectangleShape2D_0bbpv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Start/Props/Box"]
+scale = Vector2(0.031, 0.031)
+texture = ExtResource("2_rvslj")
+region_enabled = true
+region_rect = Rect2(0, 0, 512, 512)
