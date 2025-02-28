@@ -15,6 +15,11 @@ run/main_scene="uid://drx3x3mxxergs"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
 [dotnet]
 
 project/assembly_name="FactoryGame"
@@ -25,5 +30,8 @@ project/assembly_name="FactoryGame"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
+textures/lossless_compression/force_png=true
 viewport/hdr_2d=true
-anti_aliasing/quality/msaa_2d=1
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1hkec4uabnir"]
+
+[ext_resource type="Script" uid="uid://dcl1lawwevycr" path="res://scripts/components/CameraFollowComponent.cs" id="1_lh1m3"]
+
+[node name="CameraFollowComponent" type="Node"]
+script = ExtResource("1_lh1m3")
