@@ -1,9 +1,21 @@
-[gd_scene load_steps=10 format=3 uid="uid://drx3x3mxxergs"]
+[gd_scene load_steps=13 format=3 uid="uid://drx3x3mxxergs"]
 
 [ext_resource type="PackedScene" uid="uid://mr58jopv30w8" path="res://scenes/PlayerMouse.tscn" id="1_0bbpv"]
+[ext_resource type="Texture2D" uid="uid://d1y1mnqo0vigb" path="res://assets/sprites/ironore.png" id="1_vcsgt"]
 [ext_resource type="PackedScene" uid="uid://b1hkec4uabnir" path="res://scenes/components/CameraFollowComponent.tscn" id="2_vcsgt"]
 [ext_resource type="Texture2D" uid="uid://dvc7hvxhgpdki" path="res://assets/sprites/Walls.png" id="3_rarhs"]
 [ext_resource type="Texture2D" uid="uid://djjikx2jil1fi" path="res://assets/sprites/metalcrate.png" id="4_rarhs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcsgt"]
+size = Vector2(32, 32)
+
+[sub_resource type="Gradient" id="Gradient_rarhs"]
+offsets = PackedFloat32Array(0, 0.298701, 1)
+colors = PackedColorArray(0.684017, 0.313054, 0, 1, 0.690941, 0.539381, 0.279599, 1, 0.525101, 0.525101, 0.525101, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vcsgt"]
+gradient = SubResource("Gradient_rarhs")
+fill_to = Vector2(0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rvslj"]
 size = Vector2(1280, 32)
@@ -11,24 +23,83 @@ size = Vector2(1280, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rarhs"]
 size = Vector2(32, 656)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vcsgt"]
+bounce = 0.1
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0bbpv"]
 size = Vector2(16, 16)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_rarhs"]
-noise_type = 0
-frequency = 0.006
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vcsgt"]
-noise = SubResource("FastNoiseLite_rarhs")
-
 [node name="Main" type="Node2D"]
 
+[node name="Ore1" type="StaticBody2D" parent="."]
+position = Vector2(496, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore1"]
+shape = SubResource("RectangleShape2D_vcsgt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ore1"]
+texture = ExtResource("1_vcsgt")
+
+[node name="Ore2" type="StaticBody2D" parent="."]
+position = Vector2(552, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore2"]
+shape = SubResource("RectangleShape2D_vcsgt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ore2"]
+texture = ExtResource("1_vcsgt")
+
+[node name="Ore3" type="StaticBody2D" parent="."]
+position = Vector2(584, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore3"]
+shape = SubResource("RectangleShape2D_vcsgt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ore3"]
+texture = ExtResource("1_vcsgt")
+
+[node name="Ore4" type="StaticBody2D" parent="."]
+position = Vector2(552, 432)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore4"]
+shape = SubResource("RectangleShape2D_vcsgt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ore4"]
+texture = ExtResource("1_vcsgt")
+
+[node name="Ore5" type="StaticBody2D" parent="."]
+position = Vector2(464, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore5"]
+shape = SubResource("RectangleShape2D_vcsgt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ore5"]
+texture = ExtResource("1_vcsgt")
+
+[node name="Ore6" type="StaticBody2D" parent="."]
+position = Vector2(496, 432)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore6"]
+shape = SubResource("RectangleShape2D_vcsgt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ore6"]
+texture = ExtResource("1_vcsgt")
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -1000
+z_as_relative = false
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 1248.0
+offset_bottom = 688.0
+texture = SubResource("GradientTexture2D_vcsgt")
+
 [node name="PlayerMouse" parent="." instance=ExtResource("1_0bbpv")]
+z_index = 100
 position = Vector2(576, 320)
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(576, 324)
-zoom = Vector2(3, 3)
 limit_left = 0
 limit_top = 0
 limit_right = 1280
@@ -71,19 +142,12 @@ shape = SubResource("RectangleShape2D_rarhs")
 
 [node name="Box" type="RigidBody2D" parent="Start/Props"]
 texture_filter = 3
-position = Vector2(512, 320)
+position = Vector2(515, 257)
+physics_material_override = SubResource("PhysicsMaterial_vcsgt")
+continuous_cd = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Start/Props/Box"]
 shape = SubResource("RectangleShape2D_0bbpv")
 
 [node name="Sprite2D" type="Sprite2D" parent="Start/Props/Box/CollisionShape2D"]
 texture = ExtResource("4_rarhs")
-
-[node name="TextureRect" type="TextureRect" parent="."]
-z_index = -1000
-z_as_relative = false
-offset_left = 32.0
-offset_top = 32.0
-offset_right = 1248.0
-offset_bottom = 688.0
-texture = SubResource("NoiseTexture2D_vcsgt")
