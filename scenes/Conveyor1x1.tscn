@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwpwaoesulnpc"]
+
+[ext_resource type="Texture2D" uid="uid://bwkexck1iqerc" path="res://assets/sprites/conveyorbelt16x16.png" id="1_rqlev"]
+[ext_resource type="PackedScene" uid="uid://btv504dlpvbc3" path="res://scenes/components/ConveyorMoveComponent.tscn" id="2_r7v3a"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r7v3a"]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r7v3a"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqlev"]
+size = Vector2(16, 1)
+
+[node name="Conveyor 1x1" type="StaticBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_r7v3a")
+
+[node name="ConveyorMoveComponent" parent="." instance=ExtResource("2_r7v3a")]
+ConveyorSpeed = 25.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_rqlev")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_r7v3a")
+
+[node name="WorkaroundArea" type="Area2D" parent="."]
+position = Vector2(0, -8.5)
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorkaroundArea"]
+shape = SubResource("RectangleShape2D_rqlev")

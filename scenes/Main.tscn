@@ -1,13 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://drx3x3mxxergs"]
+[gd_scene load_steps=10 format=3 uid="uid://drx3x3mxxergs"]
 
 [ext_resource type="PackedScene" uid="uid://mr58jopv30w8" path="res://scenes/PlayerMouse.tscn" id="1_0bbpv"]
-[ext_resource type="Texture2D" uid="uid://d1y1mnqo0vigb" path="res://assets/sprites/ironore.png" id="1_vcsgt"]
 [ext_resource type="PackedScene" uid="uid://b1hkec4uabnir" path="res://scenes/components/CameraFollowComponent.tscn" id="2_vcsgt"]
 [ext_resource type="Texture2D" uid="uid://dvc7hvxhgpdki" path="res://assets/sprites/Walls.png" id="3_rarhs"]
-[ext_resource type="Texture2D" uid="uid://djjikx2jil1fi" path="res://assets/sprites/metalcrate.png" id="4_rarhs"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcsgt"]
-size = Vector2(32, 32)
+[ext_resource type="PackedScene" uid="uid://ckxrha8lfxx37" path="res://scenes/PropBox.tscn" id="4_rarhs"]
+[ext_resource type="PackedScene" uid="uid://dwpwaoesulnpc" path="res://scenes/Conveyor1x1.tscn" id="5_vcsgt"]
 
 [sub_resource type="Gradient" id="Gradient_rarhs"]
 offsets = PackedFloat32Array(0, 0.298701, 1)
@@ -23,67 +20,7 @@ size = Vector2(1280, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rarhs"]
 size = Vector2(32, 656)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vcsgt"]
-bounce = 0.1
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0bbpv"]
-size = Vector2(16, 16)
-
 [node name="Main" type="Node2D"]
-
-[node name="Ore1" type="StaticBody2D" parent="."]
-position = Vector2(496, 400)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore1"]
-shape = SubResource("RectangleShape2D_vcsgt")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ore1"]
-texture = ExtResource("1_vcsgt")
-
-[node name="Ore2" type="StaticBody2D" parent="."]
-position = Vector2(552, 400)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore2"]
-shape = SubResource("RectangleShape2D_vcsgt")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ore2"]
-texture = ExtResource("1_vcsgt")
-
-[node name="Ore3" type="StaticBody2D" parent="."]
-position = Vector2(584, 400)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore3"]
-shape = SubResource("RectangleShape2D_vcsgt")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ore3"]
-texture = ExtResource("1_vcsgt")
-
-[node name="Ore4" type="StaticBody2D" parent="."]
-position = Vector2(552, 432)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore4"]
-shape = SubResource("RectangleShape2D_vcsgt")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ore4"]
-texture = ExtResource("1_vcsgt")
-
-[node name="Ore5" type="StaticBody2D" parent="."]
-position = Vector2(464, 400)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore5"]
-shape = SubResource("RectangleShape2D_vcsgt")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ore5"]
-texture = ExtResource("1_vcsgt")
-
-[node name="Ore6" type="StaticBody2D" parent="."]
-position = Vector2(496, 432)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ore6"]
-shape = SubResource("RectangleShape2D_vcsgt")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ore6"]
-texture = ExtResource("1_vcsgt")
 
 [node name="Background" type="TextureRect" parent="."]
 z_index = -1000
@@ -96,23 +33,21 @@ texture = SubResource("GradientTexture2D_vcsgt")
 
 [node name="PlayerMouse" parent="." instance=ExtResource("1_0bbpv")]
 z_index = 100
-position = Vector2(576, 320)
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2(576, 324)
 limit_left = 0
 limit_top = 0
 limit_right = 1280
 limit_bottom = 720
 limit_smoothed = true
 position_smoothing_enabled = true
-position_smoothing_speed = 10.0
 
 [node name="CameraFollowComponent" parent="Camera" instance=ExtResource("2_vcsgt")]
 
 [node name="Start" type="Node2D" parent="."]
 
 [node name="Walls" type="StaticBody2D" parent="Start"]
+collision_layer = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="Start/Walls"]
 position = Vector2(640, 360)
@@ -140,14 +75,29 @@ shape = SubResource("RectangleShape2D_rarhs")
 
 [node name="Props" type="Node2D" parent="Start"]
 
-[node name="Box" type="RigidBody2D" parent="Start/Props"]
-texture_filter = 3
+[node name="Box" parent="Start/Props" instance=ExtResource("4_rarhs")]
 position = Vector2(515, 257)
-physics_material_override = SubResource("PhysicsMaterial_vcsgt")
-continuous_cd = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Start/Props/Box"]
-shape = SubResource("RectangleShape2D_0bbpv")
+[node name="Box2" parent="Start/Props" instance=ExtResource("4_rarhs")]
+position = Vector2(187, 416)
 
-[node name="Sprite2D" type="Sprite2D" parent="Start/Props/Box/CollisionShape2D"]
-texture = ExtResource("4_rarhs")
+[node name="Box3" parent="Start/Props" instance=ExtResource("4_rarhs")]
+position = Vector2(298, 436)
+
+[node name="Box4" parent="Start/Props" instance=ExtResource("4_rarhs")]
+position = Vector2(209, 305)
+
+[node name="Box5" parent="Start/Props" instance=ExtResource("4_rarhs")]
+position = Vector2(337, 341)
+
+[node name="Conveyor 1x1" parent="Start/Props" instance=ExtResource("5_vcsgt")]
+position = Vector2(328, 568)
+
+[node name="Conveyor 1x2" parent="Start/Props" instance=ExtResource("5_vcsgt")]
+position = Vector2(344, 568)
+
+[node name="Conveyor 1x3" parent="Start/Props" instance=ExtResource("5_vcsgt")]
+position = Vector2(360, 568)
+
+[node name="Conveyor 1x4" parent="Start/Props" instance=ExtResource("5_vcsgt")]
+position = Vector2(376, 568)

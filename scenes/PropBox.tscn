@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckxrha8lfxx37"]
+
+[ext_resource type="Texture2D" uid="uid://djjikx2jil1fi" path="res://assets/sprites/metalcrate.png" id="1_lj7ml"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rarhs"]
+friction = 0.0
+bounce = 0.25
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0bbpv"]
+size = Vector2(16, 16)
+
+[node name="Box" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_rarhs")
+continuous_cd = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0bbpv")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+texture = ExtResource("1_lj7ml")
