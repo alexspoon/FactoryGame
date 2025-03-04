@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/vsync/vsync_mode=0
 
 [dotnet]
 
@@ -54,6 +55,7 @@ RightClick={
 
 [physics]
 
+2d/run_on_separate_thread=true
 2d/physics_engine="Rapier2D"
 
 [rendering]

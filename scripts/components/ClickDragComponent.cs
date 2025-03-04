@@ -14,12 +14,11 @@ public partial class ClickDragComponent : Node
     public override void _Ready(){
         Main = GetTree().GetRoot().GetNode<Node2D>("Main");
         Walls = Main.GetNode<StaticBody2D>("Start/Walls");
-        Camera = Main.GetNode<Camera2D>("Camera");
         Parent = GetParent() as Node2D;
         ObjectHeld = false;
     }
 
-    public override void _Process(double delta){
+    public override void _PhysicsProcess(double delta){
         HandleObject(delta);
         ClickDrag();
     }
@@ -56,13 +55,16 @@ public partial class ClickDragComponent : Node
         
         if (!ObjectHeld)
             return;
-
-        var grabTarget = (Parent.GlobalPosition - GrabbedObject.GlobalPosition);
+        if (Parent.GlobalPosition.DistanceTo(GrabbedObject.GlobalPosition) < 1.75f){
+            GrabbedObject.LinearVelocity /= 2;
+            return;
+        }
+        var grabTarget = (Parent.GlobalPosition - GrabbedObject.GlobalPosition).Normalized();
         var objectVelocity = GrabbedObject.LinearVelocity;
-        var targetVelocity = grabTarget * DragSpeed;
-        var targetVelocityChange = (objectVelocity - targetVelocity);
+        var targetVelocity = grabTarget * DragSpeed * (float)delta * 100;
+        var targetVelocityChange = objectVelocity.MoveToward(targetVelocity, 100f);
         var targetAcceleration = targetVelocityChange;
-        GrabbedObject.LinearVelocity = -targetAcceleration;
+        GrabbedObject.LinearVelocity = targetAcceleration;
         GrabbedObject.GravityScale = 0f;
     }
 }
