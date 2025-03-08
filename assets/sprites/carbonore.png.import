@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drdvujdfqsoig"
-path="res://.godot/imported/floorceiling.png-1f34260101fe6403b100a7d1f3ab0678.ctex"
+uid="uid://4dgpas3jtdmy"
+path="res://.godot/imported/carbonore.png-9f91db2a7762fe1e66aa671827359be9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/floorceiling.png"
-dest_files=["res://.godot/imported/floorceiling.png-1f34260101fe6403b100a7d1f3ab0678.ctex"]
+source_file="res://assets/sprites/carbonore.png"
+dest_files=["res://.godot/imported/carbonore.png-9f91db2a7762fe1e66aa671827359be9.ctex"]
 
 [params]
 

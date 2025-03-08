@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://d3u31wmneu6on"]
+
+[ext_resource type="Texture2D" uid="uid://d1y1mnqo0vigb" path="res://assets/sprites/ironore.png" id="1_qil7s"]
+[ext_resource type="PackedScene" uid="uid://xi5ayurgrj84" path="res://scenes/components/OreSpawnComponent.tscn" id="1_qyjtr"]
+[ext_resource type="PackedScene" uid="uid://cwhpqok67wtoq" path="res://scenes/components/OreHealthComponent.tscn" id="1_ww0au"]
+[ext_resource type="PackedScene" uid="uid://bpapjxljyv8ds" path="res://scenes/particles/ore/IronBreakParticle.tscn" id="3_i23ue"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qil7s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ww0au"]
+size = Vector2(32, 32)
+
+[node name="IronOre" type="StaticBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_qil7s")
+
+[node name="OreSpawnComponent" parent="." instance=ExtResource("1_qyjtr")]
+
+[node name="OreHealthComponent" parent="." instance=ExtResource("1_ww0au")]
+BreakParticle = ExtResource("3_i23ue")
+MaxHealth = 10
+DamageResistance = 1
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_qil7s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ww0au")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-4.76837e-07, 1.13249e-06)
+scale = Vector2(1.8, 1.8)

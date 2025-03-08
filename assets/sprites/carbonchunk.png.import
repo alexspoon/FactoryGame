@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de86x2u44mms5"
-path="res://.godot/imported/crosshair005.png-dfcc6a74652e5e6070b098b25be45e50.ctex"
+uid="uid://b31nrwns2sqdo"
+path="res://.godot/imported/carbonchunk.png-ea3185cdd3f2d49364db84f94cd8508d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/crosshair005.png"
-dest_files=["res://.godot/imported/crosshair005.png-dfcc6a74652e5e6070b098b25be45e50.ctex"]
+source_file="res://assets/sprites/carbonchunk.png"
+dest_files=["res://.godot/imported/carbonchunk.png-ea3185cdd3f2d49364db84f94cd8508d.ctex"]
 
 [params]
 

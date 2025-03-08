@@ -15,6 +15,6 @@ public partial class MouseFollowComponent : Node
 
     public override void _Process(double delta)
     {
-        Parent.GlobalPosition = Parent.GlobalPosition.Lerp(Camera.GetGlobalMousePosition(), 20f * (float)delta);
+        Parent.GlobalPosition = Camera.GetGlobalMousePosition();
     }
 }

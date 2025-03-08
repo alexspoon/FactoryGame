@@ -1,0 +1,15 @@
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://dwx7rx03w800w"]
+
+[ext_resource type="Texture2D" uid="uid://4n2lbo64k4o8" path="res://assets/sprites/metalblock16x16.png" id="1_4yexr"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4yexr"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tegmf"]
+resource_name = "testtileset"
+texture = ExtResource("1_4yexr")
+0:0/0 = 0
+
+[resource]
+physics_layer_0/collision_layer = 1
+physics_layer_0/physics_material = SubResource("PhysicsMaterial_4yexr")
+sources/0 = SubResource("TileSetAtlasSource_tegmf")

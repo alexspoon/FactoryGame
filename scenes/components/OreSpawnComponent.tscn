@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://xi5ayurgrj84"]
+
+[ext_resource type="Script" uid="uid://6aii8vla0pbo" path="res://scripts/components/OreSpawnComponent.cs" id="1_xwaao"]
+[ext_resource type="PackedScene" uid="uid://bf0xqp0oki7m5" path="res://scenes/ores/chunks/IronChunk.tscn" id="2_gsshx"]
+[ext_resource type="PackedScene" uid="uid://bu0y7etcqhfo6" path="res://scenes/ores/chunks/CarbonChunk.tscn" id="3_xy00t"]
+
+[node name="OreSpawnComponent" type="Node"]
+editor_description = "Not fully implemented yet, I want this to just be a dropdown where I will select the type of ore to spawn and the script will correctly spawn the selected ore in the right layout/size. "
+script = ExtResource("1_xwaao")
+IronChunk = ExtResource("2_gsshx")
+CarbonChunk = ExtResource("3_xy00t")

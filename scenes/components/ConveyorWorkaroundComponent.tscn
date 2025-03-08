@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://p8tvgsxyfl3i"]
+
+[ext_resource type="Script" uid="uid://bnvry6nlf3yk0" path="res://scripts/components/ConveyorWorkaroundComponent.cs" id="1_7knrx"]
+
+[node name="ConveyorWorkaroundComponent" type="Node"]
+script = ExtResource("1_7knrx")
+ConveyorSpeed = 10.0
+Right = true

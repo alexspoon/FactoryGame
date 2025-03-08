@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bu0y7etcqhfo6"]
+
+[ext_resource type="Texture2D" uid="uid://b31nrwns2sqdo" path="res://assets/sprites/carbonchunk.png" id="1_clnrj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gdcrk"]
+friction = 0.75
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0hw5"]
+size = Vector2(16, 16)
+
+[node name="CarbonChunk" type="RigidBody2D"]
+mass = 4.0
+physics_material_override = SubResource("PhysicsMaterial_gdcrk")
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 2
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_clnrj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_b0hw5")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(8.9407e-08, 8.9407e-08)
+scale = Vector2(0.9, 0.9)

@@ -6,6 +6,7 @@ public partial class CameraFollowComponent : Node
     private Node2D Main;
     private Camera2D Parent;
     private Node2D PlayerMouse;
+    private Vector2 CameraLerp;
 
     public override void _Ready()
     {
@@ -16,6 +17,28 @@ public partial class CameraFollowComponent : Node
 
     public override void _Process(double delta)
     {
-        Parent.GlobalPosition = PlayerMouse.GlobalPosition;
+        HandleInput();
+    }
+
+    private void HandleInput(){
+        Vector2 zoom = Parent.Zoom.Clamp(1, 10);
+
+        if (Input.IsActionJustPressed("ScrollUp")){
+            zoom += new Vector2(0.25f, 0.25f);
+        }
+
+        if (Input.IsActionJustPressed("ScrollDown")){
+            zoom -= new Vector2(0.25f, 0.25f);
+        }
+
+        if (Input.IsActionJustPressed("MiddleClick")){
+            zoom = new Vector2(1f, 1f);
+        }
+
+        if (Input.IsActionPressed("RightClick")){
+            Parent.GlobalPosition = PlayerMouse.GlobalPosition;
+        }
+
+        Parent.Zoom = zoom;
     }
 }
