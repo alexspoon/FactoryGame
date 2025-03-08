@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://blasks2606grc"]
+
+[ext_resource type="Texture2D" uid="uid://cgerg4tkgl7en" path="res://assets/sprites/carbonsmallchunk.png" id="1_ebsg3"]
+
+[sub_resource type="Gradient" id="Gradient_5t4ng"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.758192, 0.758192, 0.758192, 1, 0.501961, 0.501961, 0.501961, 0.690196)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_57sa3"]
+gradient = SubResource("Gradient_5t4ng")
+
+[sub_resource type="Curve" id="Curve_ppbhu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.27448, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_oq6d6"]
+curve = SubResource("Curve_ppbhu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aesdi"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 245, 0)
+scale_min = 0.75
+scale_curve = SubResource("CurveTexture_oq6d6")
+color_ramp = SubResource("GradientTexture1D_57sa3")
+turbulence_noise_scale = 4.0
+turbulence_noise_speed_random = 0.5
+turbulence_influence_max = 0.2
+
+[sub_resource type="Animation" id="Animation_5t4ng"]
+resource_name = "auto"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_57sa3"]
+_data = {
+&"auto": SubResource("Animation_5t4ng")
+}
+
+[node name="ParticlePivot" type="Node2D"]
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+rect = Rect2(-17, -17, 34, 34)
+
+[node name="OreBreakParticle" type="GPUParticles2D" parent="."]
+z_index = 100
+z_as_relative = false
+emitting = false
+amount = 16
+texture = ExtResource("1_ebsg3")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_aesdi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="OreBreakParticle"]
+libraries = {
+&"": SubResource("AnimationLibrary_57sa3")
+}
+autoplay = "auto"

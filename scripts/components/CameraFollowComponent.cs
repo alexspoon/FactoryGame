@@ -21,20 +21,24 @@ public partial class CameraFollowComponent : Node
     }
 
     private void HandleInput(){
+        Vector2 zoom = Parent.Zoom.Clamp(1, 10);
+
         if (Input.IsActionJustPressed("ScrollUp")){
-            Parent.Zoom += new Vector2(0.25f, 0.25f);
+            zoom += new Vector2(0.25f, 0.25f);
         }
 
         if (Input.IsActionJustPressed("ScrollDown")){
-            Parent.Zoom -= new Vector2(0.25f, 0.25f);
+            zoom -= new Vector2(0.25f, 0.25f);
         }
 
         if (Input.IsActionJustPressed("MiddleClick")){
-            Parent.Zoom = new Vector2(1f, 1f);
+            zoom = new Vector2(1f, 1f);
         }
 
         if (Input.IsActionPressed("RightClick")){
             Parent.GlobalPosition = PlayerMouse.GlobalPosition;
         }
+
+        Parent.Zoom = zoom;
     }
 }

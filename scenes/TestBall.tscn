@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://57uq2y6lglde"]
+
+[ext_resource type="Texture2D" uid="uid://cwtmxf14en0fp" path="res://assets/sprites/testball.png" id="1_xge7d"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nqd8p"]
+radius = 8.0
+
+[node name="TestBall" type="RigidBody2D"]
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 4
+
+[node name="Testball" type="Sprite2D" parent="."]
+texture = ExtResource("1_xge7d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nqd8p")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1.43051e-06, 1.19209e-06)
+scale = Vector2(1.2, 1.2)

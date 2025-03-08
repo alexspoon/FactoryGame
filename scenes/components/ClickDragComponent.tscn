@@ -4,4 +4,4 @@
 
 [node name="ClickDragComponent" type="Node"]
 script = ExtResource("1_4iua5")
-DragSpeed = 500.0
+DragSpeed = 1000.0

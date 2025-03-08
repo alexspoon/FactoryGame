@@ -1,0 +1,112 @@
+[gd_scene load_steps=11 format=3 uid="uid://v72q50i41tck"]
+
+[ext_resource type="Texture2D" uid="uid://c0ucvy6rfodvh" path="res://assets/spritesheets/smokeparticle.png" id="1_5t4ng"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_57sa3"]
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_5t4ng"]
+offsets = PackedFloat32Array(0, 0.245455, 0.427273, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.758192, 0.758192, 0.758192, 1, 0.478431, 0.478431, 0.478431, 0.823529, 0.250607, 0.250607, 0.250607, 0.431373, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_57sa3"]
+gradient = SubResource("Gradient_5t4ng")
+
+[sub_resource type="Curve" id="Curve_ppbhu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.713235, 0.764045), 0.0, 0.0, 0, 0, Vector2(1, 0.359551), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_oq6d6"]
+curve = SubResource("Curve_ppbhu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aesdi"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 245, 0)
+scale_min = 0.75
+scale_curve = SubResource("CurveTexture_oq6d6")
+color = Color(0.552956, 0.552956, 0.552956, 1)
+color_ramp = SubResource("GradientTexture1D_57sa3")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+turbulence_enabled = true
+turbulence_noise_scale = 4.0
+turbulence_noise_speed_random = 0.5
+turbulence_influence_max = 0.2
+collision_use_scale = true
+
+[sub_resource type="Animation" id="Animation_57sa3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_5t4ng"]
+resource_name = "auto"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_57sa3"]
+_data = {
+&"RESET": SubResource("Animation_57sa3"),
+&"auto": SubResource("Animation_5t4ng")
+}
+
+[node name="ParticlePivot" type="Node2D"]
+
+[node name="DamageParticle" type="GPUParticles2D" parent="."]
+z_index = 100
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_57sa3")
+emitting = false
+amount = 3
+texture = ExtResource("1_5t4ng")
+lifetime = 0.5
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_aesdi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DamageParticle"]
+libraries = {
+&"": SubResource("AnimationLibrary_57sa3")
+}
+autoplay = "auto"

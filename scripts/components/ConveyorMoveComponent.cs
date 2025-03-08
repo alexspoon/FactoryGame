@@ -20,7 +20,9 @@ public partial class ConveyorMoveComponent : Node
         } else
             ConveyorDirection = -1f;
 
-        Parent.ConstantLinearVelocity = new Vector2(ConveyorDirection * ConveyorSpeed, 0.0f);
-        GD.Print(Parent.ConstantLinearVelocity);
+        var constVel = Parent.ConstantLinearVelocity;
+        constVel.X = (ConveyorDirection * ConveyorSpeed);
+        Parent.ConstantLinearVelocity = constVel;
+        // Parent.ConstantLinearVelocity = new Vector2(ConveyorDirection * ConveyorSpeed, 0.0f);
     }
 }

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwhpqok67wtoq"]
+
+[ext_resource type="Script" uid="uid://bc3ayvomuf80j" path="res://scripts/components/OreHealthComponent.cs" id="1_jis06"]
+[ext_resource type="PackedScene" uid="uid://v72q50i41tck" path="res://scenes/particles/generic/DamageParticle.tscn" id="2_50iiq"]
+
+[node name="OreHealthComponent" type="Node"]
+script = ExtResource("1_jis06")
+DamageParticle = ExtResource("2_50iiq")

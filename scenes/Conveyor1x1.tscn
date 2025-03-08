@@ -4,19 +4,28 @@
 [ext_resource type="PackedScene" uid="uid://btv504dlpvbc3" path="res://scenes/components/ConveyorMoveComponent.tscn" id="2_r7v3a"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r7v3a"]
-friction = 0.0
+friction = 0.1
+bounce = 0.15
+absorbent = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tk0jl"]
+custom_solver_bias = 1.0
+size = Vector2(16, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r7v3a"]
 size = Vector2(16, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqlev"]
-size = Vector2(16, 1)
-
 [node name="Conveyor 1x1" type="StaticBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_r7v3a")
 
-[node name="ConveyorMoveComponent" parent="." instance=ExtResource("2_r7v3a")]
-ConveyorSpeed = 25.0
+[node name="ConveyorTop" type="StaticBody2D" parent="."]
+
+[node name="ConveyorMoveComponent" parent="ConveyorTop" instance=ExtResource("2_r7v3a")]
+ConveyorSpeed = 50.0
+
+[node name="ConveyorCollider" type="CollisionShape2D" parent="ConveyorTop"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_tk0jl")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_rqlev")
@@ -24,9 +33,4 @@ texture = ExtResource("1_rqlev")
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_r7v3a")
 
-[node name="WorkaroundArea" type="Area2D" parent="."]
-position = Vector2(0, -8.5)
-input_pickable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WorkaroundArea"]
-shape = SubResource("RectangleShape2D_rqlev")
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

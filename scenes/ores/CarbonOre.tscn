@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://bngkrmp61oh7e"]
+
+[ext_resource type="PackedScene" uid="uid://cwhpqok67wtoq" path="res://scenes/components/OreHealthComponent.tscn" id="1_qkxog"]
+[ext_resource type="PackedScene" uid="uid://blasks2606grc" path="res://scenes/particles/ore/CarbonBreakParticle.tscn" id="2_adpqs"]
+[ext_resource type="PackedScene" uid="uid://xi5ayurgrj84" path="res://scenes/components/OreSpawnComponent.tscn" id="2_stp34"]
+[ext_resource type="Texture2D" uid="uid://4dgpas3jtdmy" path="res://assets/sprites/carbonore.png" id="3_adpqs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7lj0u"]
+size = Vector2(32, 32)
+
+[node name="CarbonOre" type="StaticBody2D"]
+
+[node name="OreHealthComponent" parent="." instance=ExtResource("1_qkxog")]
+BreakParticle = ExtResource("2_adpqs")
+OreType = 1
+MaxHealth = 10
+
+[node name="OreSpawnComponent" parent="." instance=ExtResource("2_stp34")]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_adpqs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7lj0u")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-17, -17, 34, 34)

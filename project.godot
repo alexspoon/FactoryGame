@@ -15,6 +15,10 @@ run/main_scene="uid://drx3x3mxxergs"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+CustomSignals="*res://scripts/singletons/CustomSignals.cs"
+
 [display]
 
 window/size/viewport_width=1280
@@ -56,11 +60,13 @@ RightClick={
 [physics]
 
 2d/run_on_separate_thread=true
+common/physics_jitter_fix=0.0
 2d/physics_engine="Rapier2D"
+2d/solver/contact_max_allowed_penetration=0.01
+common/physics_interpolation=true
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
 textures/lossless_compression/force_png=true
 viewport/hdr_2d=true
-2d/snap/snap_2d_transforms_to_pixel=true
