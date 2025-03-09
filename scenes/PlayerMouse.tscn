@@ -14,12 +14,6 @@ mass = 1000.0
 shape = SubResource("CircleShape2D_0ays5")
 disabled = true
 
-[node name="DragSpring" type="DampedSpringJoint2D" parent="."]
-node_a = NodePath("..")
-bias = 0.1
-length = 1.0
-stiffness = 64.0
-
 [node name="Crosshair" type="Sprite2D" parent="."]
 texture = ExtResource("1_js21a")
 

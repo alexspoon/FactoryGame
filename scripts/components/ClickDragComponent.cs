@@ -10,8 +10,9 @@ public partial class ClickDragComponent : Node
     private Camera2D Camera;
     private RigidBody2D GrabbedObject;
     private bool ObjectHeld;
-    [Export] private float DragSpeed;
-    private DampedSpringJoint2D DragSpring;
+    private PIDController PID;
+    private PIDController PIDX;
+    private PIDController PIDY;
     [Export] private int Damage = 2;
 
     public override void _Ready(){
@@ -19,7 +20,9 @@ public partial class ClickDragComponent : Node
         Main = GetTree().GetRoot().GetNode<Node2D>("Main");
         Walls = Main.GetNode<StaticBody2D>("Start/Walls");
         Parent = GetParent() as Node2D;
-        DragSpring = Parent.GetNode<DampedSpringJoint2D>("DragSpring");
+        PID = GetNode<PIDController>("PID");
+        PIDX = GetNode<PIDController>("PIDX");
+        PIDY = GetNode<PIDController>("PIDY");
         ObjectHeld = false;
     }
 
@@ -49,6 +52,9 @@ public partial class ClickDragComponent : Node
         if (Input.IsActionJustPressed("LeftClick") && !ObjectHeld){
             GrabbedObject = hoveredObject.Obj as RigidBody2D;
             ObjectHeld = true;
+            PID.valueLast = Parent.GlobalPosition.Length();
+            PIDX.valueLast = Parent.GlobalPosition.X;
+            PIDY.valueLast = Parent.GlobalPosition.Y;
         }
     }
 
@@ -79,39 +85,50 @@ public partial class ClickDragComponent : Node
     private void HandleObject(double delta){
         if (Input.IsActionJustReleased("LeftClick") && ObjectHeld){
             GrabbedObject.GravityScale = 1f;
-            DragSpring.NodeB = null;
             GrabbedObject = null;
             ObjectHeld = false;
+           
+            // PIDX.errorLast = 0;
+            // PIDY.errorLast = 0;
+            // PIDX.integrationStored = 0;
+            // PIDY.integrationStored = 0;
         }
         
         if (!ObjectHeld)
             return;
 
+        
+
+        Vector2 objPos = GrabbedObject.GlobalPosition;
         Vector2 targetPos = Parent.GlobalPosition;
-        Vector2 posLerp = GrabbedObject.GlobalPosition.Lerp(targetPos, 1f);
-        GrabbedObject.GlobalPosition = posLerp;
-        GrabbedObject.LinearVelocity = Vector2.Zero;
 
-        // GrabbedObject.GravityScale = 0f;
-        // DragSpring.NodeB = GetPathTo(GrabbedObject);
+        float targetMove = PID.UpdatePID(objPos.Length(), targetPos.Length(), (float)delta);
 
-        // var grabTarget = (Parent.GlobalPosition - GrabbedObject.GlobalPosition).Normalized();
-        // if (GrabbedObject.GlobalPosition.DistanceSquaredTo(Parent.GlobalPosition) > 64f)
-        //     GrabbedObject.ApplyCentralForce(grabTarget * DragSpeed * 10);
+        var objVelocity = GrabbedObject.LinearVelocity;
+        objVelocity = new Vector2(targetMove, targetMove);
+        GrabbedObject.LinearVelocity = objVelocity;
 
-        // if (GrabbedObject.GlobalPosition.DistanceTo(Parent.GlobalPosition) < 4f){
-        //     GrabbedObject.LinearVelocity *= 0.9f;
-        //     return;
-        // }
 
-        // GrabbedObject.LinearDamp = 0.1f;
-        // var grabTarget = (Parent.GlobalPosition - GrabbedObject.GlobalPosition).Normalized();
-        // var objectVelocity = GrabbedObject.LinearVelocity;
-        // var targetVelocity = grabTarget * DragSpeed * (float)delta * 100;
-        // var targetVelocityChange = objectVelocity.MoveToward(targetVelocity, 50f);
-        // var targetAcceleration = targetVelocityChange;
-        // GrabbedObject.LinearVelocity = targetAcceleration;
-        // GrabbedObject.GravityScale = 0f;
+        // float objPosX = objPos.X;
+        // float objPosY = objPos.Y;
+
+        // float targetPosX = targetPos.X;
+        // float targetPosY = targetPos.Y;
+
+        // targetMove = new Vector2(PIDX.UpdatePID(objPosX, targetPosX, (float)delta), PIDY.UpdatePID(objPosY, targetPosY, (float)delta));
+
+        // var objVelocity = GrabbedObject.LinearVelocity;
+        // objVelocity.X = targetMove.X;
+        // objVelocity.Y = targetMove.Y;
+        // GrabbedObject.LinearVelocity = objVelocity;
+
+        // GD.Print(targetMove); 
+
+        // Debug override
+        // Vector2 targetPos = Parent.GlobalPosition;
+        // Vector2 posLerp = GrabbedObject.GlobalPosition.Lerp(targetPos, 1f);
+        // GrabbedObject.GlobalPosition = posLerp;
+        // GrabbedObject.LinearVelocity = Vector2.Zero;
     }
 }
 

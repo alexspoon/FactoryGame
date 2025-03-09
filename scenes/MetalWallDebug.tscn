@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwqsyu86mktu6"]
+
+[ext_resource type="Texture2D" uid="uid://c6njg3wgcyl5n" path="res://assets/sprites/metalblock160x16.png" id="1_yvrug"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vt8pv"]
+size = Vector2(160, 16)
+
+[node name="Metalwall" type="StaticBody2D"]
+
+[node name="Metalblock160x16" type="Sprite2D" parent="."]
+texture = ExtResource("1_yvrug")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vt8pv")

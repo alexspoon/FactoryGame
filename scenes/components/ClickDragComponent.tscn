@@ -1,7 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://q3a3cn8rbobr"]
+[gd_scene load_steps=3 format=3 uid="uid://q3a3cn8rbobr"]
 
 [ext_resource type="Script" uid="uid://buubtwcjfy02d" path="res://scripts/components/ClickDragComponent.cs" id="1_4iua5"]
+[ext_resource type="PackedScene" uid="uid://cy8gt1obpujmv" path="res://scenes/PIDController.tscn" id="2_qtlwx"]
 
 [node name="ClickDragComponent" type="Node"]
 script = ExtResource("1_4iua5")
-DragSpeed = 1000.0
+
+[node name="PID" parent="." instance=ExtResource("2_qtlwx")]
+
+[node name="PIDX" parent="." instance=ExtResource("2_qtlwx")]
+
+[node name="PIDY" parent="." instance=ExtResource("2_qtlwx")]
