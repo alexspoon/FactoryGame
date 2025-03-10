@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5f1tuij8qshh"]
+
+[ext_resource type="Script" uid="uid://0dr1ipt4pd41" path="res://scripts/Bomb.cs" id="1_3e7g0"]
+[ext_resource type="Texture2D" uid="uid://cxijhpb1aqxwi" path="res://assets/sprites/placeholderbomb.png" id="1_xsqdb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3e7g0"]
+bounce = 0.25
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3e7g0"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xsqdb"]
+radius = 64.0
+
+[node name="Bomb" type="RigidBody2D"]
+mass = 5.0
+physics_material_override = SubResource("PhysicsMaterial_3e7g0")
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 2
+script = ExtResource("1_3e7g0")
+Damage = 100
+ExplosionForce = 5.0
+
+[node name="Fuse" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+one_shot = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_xsqdb")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_3e7g0")
+
+[node name="ExplosionRadius" type="Area2D" parent="."]
+
+[node name="ExplosionRange" type="CollisionShape2D" parent="ExplosionRadius"]
+shape = SubResource("CircleShape2D_xsqdb")
+debug_color = Color(0.936163, 0.272011, 0.180958, 0.0705882)

@@ -1,5 +1,6 @@
+using System.Linq;
 using Godot;
-using System;
+using Godot.Collections;
 
 public partial class ClickDragComponent : Node
 {
@@ -11,8 +12,6 @@ public partial class ClickDragComponent : Node
     private RigidBody2D GrabbedObject;
     private bool ObjectHeld;
     private PIDController PID;
-    private PIDController PIDX;
-    private PIDController PIDY;
     [Export] private int Damage = 2;
 
     public override void _Ready(){
@@ -21,8 +20,6 @@ public partial class ClickDragComponent : Node
         Walls = Main.GetNode<StaticBody2D>("Start/Walls");
         Parent = GetParent() as Node2D;
         PID = GetNode<PIDController>("PID");
-        PIDX = GetNode<PIDController>("PIDX");
-        PIDY = GetNode<PIDController>("PIDY");
         ObjectHeld = false;
     }
 
@@ -52,9 +49,8 @@ public partial class ClickDragComponent : Node
         if (Input.IsActionJustPressed("LeftClick") && !ObjectHeld){
             GrabbedObject = hoveredObject.Obj as RigidBody2D;
             ObjectHeld = true;
-            PID.valueLast = Parent.GlobalPosition.Length();
-            PIDX.valueLast = Parent.GlobalPosition.X;
-            PIDY.valueLast = Parent.GlobalPosition.Y;
+            PID.valueLastX = Parent.GlobalPosition.X;
+            PID.valueLastY = Parent.GlobalPosition.Y;
         }
     }
 
@@ -76,9 +72,12 @@ public partial class ClickDragComponent : Node
             return;
 
         StaticBody2D hoveredOre = hoveredObject.Obj as StaticBody2D;
+        Array<StaticBody2D> oreArray = [];
 
-        if (Input.IsActionJustPressed("LeftClick")){
-            Signals.EmitSignal(nameof(Signals.OreDamage), hoveredOre, Damage);
+        if (Input.IsActionJustPressed("LeftClick"))
+        {
+            oreArray.Add(hoveredOre);
+            Signals.EmitSignal(nameof(Signals.OreDamage), oreArray, Damage);
         }
     }
 
@@ -87,42 +86,24 @@ public partial class ClickDragComponent : Node
             GrabbedObject.GravityScale = 1f;
             GrabbedObject = null;
             ObjectHeld = false;
-           
-            // PIDX.errorLast = 0;
-            // PIDY.errorLast = 0;
-            // PIDX.integrationStored = 0;
-            // PIDY.integrationStored = 0;
         }
         
         if (!ObjectHeld)
             return;
-
         
-
         Vector2 objPos = GrabbedObject.GlobalPosition;
         Vector2 targetPos = Parent.GlobalPosition;
-
-        float targetMove = PID.UpdatePID(objPos.Length(), targetPos.Length(), (float)delta);
-
+        
+        Vector2 targetMove = new Vector2(PID.UpdatePIDX(objPos.X, targetPos.X, (float)delta), PID.UpdatePIDY(objPos.Y, targetPos.Y, (float)delta));
+        
         var objVelocity = GrabbedObject.LinearVelocity;
-        objVelocity = new Vector2(targetMove, targetMove);
+        objVelocity = targetMove;
         GrabbedObject.LinearVelocity = objVelocity;
+        
+        GrabbedObject.ApplyTorque(GrabbedObject.GetAngleTo(Parent.GlobalPosition) * 1000);
 
-
-        // float objPosX = objPos.X;
-        // float objPosY = objPos.Y;
-
-        // float targetPosX = targetPos.X;
-        // float targetPosY = targetPos.Y;
-
-        // targetMove = new Vector2(PIDX.UpdatePID(objPosX, targetPosX, (float)delta), PIDY.UpdatePID(objPosY, targetPosY, (float)delta));
-
-        // var objVelocity = GrabbedObject.LinearVelocity;
-        // objVelocity.X = targetMove.X;
-        // objVelocity.Y = targetMove.Y;
-        // GrabbedObject.LinearVelocity = objVelocity;
-
-        // GD.Print(targetMove); 
+        if (GrabbedObject == null)
+            return;
 
         // Debug override
         // Vector2 targetPos = Parent.GlobalPosition;

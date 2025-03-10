@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Linq;
 
 public partial class OreHealthComponent : Node
 {
@@ -21,8 +21,8 @@ public partial class OreHealthComponent : Node
         CurrentHealth = MaxHealth;
     }
 
-    private void HandleDamage(StaticBody2D Ore, int Damage){
-        if(Ore == Parent){
+    private void HandleDamage(StaticBody2D[]Ores, int Damage){
+        if(Ores.Contains(Parent)){
             Node2D particleInstance = DamageParticle.Instantiate() as Node2D;
             particleInstance.GlobalPosition = Parent.GlobalPosition;
             int damageToTake = Damage - DamageResistance;

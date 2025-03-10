@@ -1,21 +1,23 @@
 using Godot;
-using System;
 
 public partial class PIDController : Node2D
 {
     //PID variables
     [Export] public float proportionalGain = 1;
-    [Export] public float integralGain = 0;
-    [Export] public float derivativeGain = 0;
+    [Export] public float integralGain;
+    [Export] public float derivativeGain;
     public float outputMin = -1000;
     public float outputMax = 1000;
-    public float integralSaturation;
-    public float errorLast;
-    public float valueLast;
-    public float integrationStored;
-    public bool derivativeIntialized;
+    public float integralSaturationX;
+    public float errorLastX;
+    public float valueLastX;
+    public float integrationStoredX;
+    public float integralSaturationY;
+    public float errorLastY;
+    public float valueLastY;
+    public float integrationStoredY;
 
-    public float UpdatePID(float currentValue, float targetValue, float deltaTime)
+    public float UpdatePIDX(float currentValue, float targetValue, float deltaTime)
     {
         //Calculate error value
         float error = targetValue - currentValue;
@@ -24,25 +26,54 @@ public partial class PIDController : Node2D
         float P = proportionalGain * error;
 
         //Calculate integral term
-        integrationStored = Mathf.Clamp(integrationStored + (error * deltaTime), -integralSaturation, integralSaturation);
-        float I = integralGain * integrationStored;
+        integrationStoredX = Mathf.Clamp(integrationStoredX + (error * deltaTime), -integralSaturationX, integralSaturationX);
+        float I = integralGain * integrationStoredX;
 
         //Calculate the change rate of error
-        float errorRateOfChange = (error - errorLast) / deltaTime;
-        errorLast = error;
+        float errorRateOfChange = (error - errorLastX) / deltaTime;
+        errorLastX = error;
 
         //Calculate the change rate of value
-        float valueRateOfChange = (currentValue - valueLast) / deltaTime;
-        valueLast = currentValue;
+        float valueRateOfChange = (currentValue - valueLastX) / deltaTime;
+        valueLastX = currentValue;
 
         //Calculate derivative term
         float D = derivativeGain * valueRateOfChange;
 
         //Calculate result
-        float result = P + I + D;
+        float resultX = P + I + D;
 
-        //Return result within minimum and maximum output range
-        return Mathf.Clamp(result, outputMin, outputMax);
-        //return result;
+        //Return result
+        return resultX;
+    }
+    
+    public float UpdatePIDY(float currentValue, float targetValue, float deltaTime)
+    {
+        //Calculate error value
+        float error = targetValue - currentValue;
+
+        //Calculate proportional term
+        float P = proportionalGain * error;
+
+        //Calculate integral term
+        integrationStoredY = Mathf.Clamp(integrationStoredY + (error * deltaTime), -integralSaturationY, integralSaturationY);
+        float I = integralGain * integrationStoredY;
+
+        //Calculate the change rate of error
+        float errorRateOfChange = (error - errorLastY) / deltaTime;
+        errorLastY = error;
+
+        //Calculate the change rate of value
+        float valueRateOfChange = (currentValue - valueLastY) / deltaTime;
+        valueLastY = currentValue;
+
+        //Calculate derivative term
+        float D = derivativeGain * valueRateOfChange;
+
+        //Calculate result
+        float resultY = P + I + D;
+
+        //Return result
+        return resultY;
     }
 }
