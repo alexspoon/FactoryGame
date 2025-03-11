@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5f1tuij8qshh"]
+[gd_scene load_steps=7 format=3 uid="uid://b5f1tuij8qshh"]
 
 [ext_resource type="Script" uid="uid://0dr1ipt4pd41" path="res://scripts/Bomb.cs" id="1_3e7g0"]
 [ext_resource type="Texture2D" uid="uid://cxijhpb1aqxwi" path="res://assets/sprites/placeholderbomb.png" id="1_xsqdb"]
+[ext_resource type="PackedScene" uid="uid://bdmgd1ilp3gsn" path="res://scenes/particles/generic/BombExplodeParticle.tscn" id="2_31oai"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3e7g0"]
 bounce = 0.25
@@ -19,8 +20,9 @@ continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 2
 script = ExtResource("1_3e7g0")
+ExplosionParticle = ExtResource("2_31oai")
 Damage = 100
-ExplosionForce = 5.0
+ExplosionForce = 250.0
 
 [node name="Fuse" type="Timer" parent="."]
 process_callback = 0

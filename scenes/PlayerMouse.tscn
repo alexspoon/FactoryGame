@@ -4,15 +4,17 @@
 [ext_resource type="PackedScene" uid="uid://cuwruvxfqburf" path="res://scenes/components/MouseFollowComponent.tscn" id="2_js21a"]
 [ext_resource type="PackedScene" uid="uid://q3a3cn8rbobr" path="res://scenes/components/ClickDragComponent.tscn" id="3_0ays5"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0ays5"]
-radius = 5.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_u480a"]
+radius = 32.0
 
-[node name="PlayerMouse" type="RigidBody2D"]
-mass = 1000.0
+[node name="PlayerMouse" type="Node2D"]
 
-[node name="MouseCollider" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_0ays5")
-disabled = true
+[node name="GrabArea" type="Area2D" parent="."]
+input_pickable = false
+priority = 100
+
+[node name="GrabCollider" type="CollisionShape2D" parent="GrabArea"]
+shape = SubResource("CircleShape2D_u480a")
 
 [node name="Crosshair" type="Sprite2D" parent="."]
 texture = ExtResource("1_js21a")

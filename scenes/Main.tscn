@@ -1,6 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://drx3x3mxxergs"]
+[gd_scene load_steps=18 format=3 uid="uid://drx3x3mxxergs"]
 
 [ext_resource type="PackedScene" uid="uid://mr58jopv30w8" path="res://scenes/PlayerMouse.tscn" id="1_0bbpv"]
+[ext_resource type="FontFile" uid="uid://vygr1pbf71kn" path="res://assets/fonts/yoster.ttf" id="1_wp0k4"]
+[ext_resource type="Script" uid="uid://c5uw2gcfaa4py" path="res://scripts/FPSCounter.cs" id="2_bjd11"]
 [ext_resource type="PackedScene" uid="uid://b1hkec4uabnir" path="res://scenes/components/CameraFollowComponent.tscn" id="2_vcsgt"]
 [ext_resource type="Texture2D" uid="uid://dvc7hvxhgpdki" path="res://assets/sprites/Walls.png" id="3_rarhs"]
 [ext_resource type="PackedScene" uid="uid://dwpwaoesulnpc" path="res://scenes/Conveyor1x1.tscn" id="5_vcsgt"]
@@ -10,6 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://ckxrha8lfxx37" path="res://scenes/PropBox.tscn" id="8_jlsqs"]
 [ext_resource type="PackedScene" uid="uid://dwqsyu86mktu6" path="res://scenes/MetalWallDebug.tscn" id="9_q8u5g"]
 [ext_resource type="PackedScene" uid="uid://b5f1tuij8qshh" path="res://scenes/Bomb.tscn" id="10_lhr70"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bjd11"]
+font = ExtResource("1_wp0k4")
 
 [sub_resource type="Gradient" id="Gradient_rarhs"]
 offsets = PackedFloat32Array(0, 0.298701, 1)
@@ -26,6 +31,15 @@ size = Vector2(1280, 32)
 size = Vector2(32, 656)
 
 [node name="Main" type="Node2D"]
+
+[node name="FPSCounter" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 72.0
+offset_bottom = 55.0
+label_settings = SubResource("LabelSettings_bjd11")
+script = ExtResource("2_bjd11")
+MaxFPS = 165
 
 [node name="Background" type="TextureRect" parent="."]
 z_index = -1000
@@ -81,6 +95,72 @@ shape = SubResource("RectangleShape2D_rarhs")
 
 [node name="Props" type="Node2D" parent="Start"]
 
+[node name="Box" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(88, 456)
+
+[node name="Box2" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(608, 456)
+
+[node name="Box3" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(640, 456)
+
+[node name="Box4" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(672, 456)
+
+[node name="Box5" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(704, 456)
+
+[node name="Box6" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(728, 456)
+
+[node name="Box7" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(728, 472)
+
+[node name="Box8" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(728, 488)
+
+[node name="Box9" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(728, 512)
+
+[node name="Box10" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(728, 528)
+
+[node name="Box11" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(694, 528)
+
+[node name="Box12" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(648, 528)
+
+[node name="Box13" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(618, 528)
+
+[node name="Box14" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(616, 497)
+
+[node name="Box15" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(650, 497)
+
+[node name="Box16" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(682, 497)
+
+[node name="Box17" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(682, 552)
+
+[node name="Box18" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(618, 552)
+
+[node name="Box19" parent="Start/Props" instance=ExtResource("8_jlsqs")]
+position = Vector2(640, 552)
+
+[node name="Bomb" parent="Start/Props" instance=ExtResource("10_lhr70")]
+position = Vector2(248, 520)
+
+[node name="Bomb2" parent="Start/Props" instance=ExtResource("10_lhr70")]
+position = Vector2(168, 496)
+
+[node name="Bomb3" parent="Start/Props" instance=ExtResource("10_lhr70")]
+position = Vector2(320, 504)
+
 [node name="Static Objects" type="Node2D" parent="Start"]
 
 [node name="Conveyor 1x1" parent="Start/Static Objects" instance=ExtResource("5_vcsgt")]
@@ -119,105 +199,39 @@ position = Vector2(488, 568)
 [node name="Conveyor 1x12" parent="Start/Static Objects" instance=ExtResource("5_vcsgt")]
 position = Vector2(504, 568)
 
-[node name="Ore Chunks" type="Node2D" parent="."]
-
-[node name="IronOre" parent="." instance=ExtResource("6_nxtc6")]
+[node name="IronOre" parent="Start/Static Objects" instance=ExtResource("6_nxtc6")]
 position = Vector2(48, 560)
 
-[node name="IronOre2" parent="." instance=ExtResource("6_nxtc6")]
+[node name="IronOre2" parent="Start/Static Objects" instance=ExtResource("6_nxtc6")]
 position = Vector2(80, 560)
 
-[node name="IronOre3" parent="." instance=ExtResource("6_nxtc6")]
+[node name="IronOre3" parent="Start/Static Objects" instance=ExtResource("6_nxtc6")]
 position = Vector2(112, 560)
 
-[node name="CarbonOre" parent="." instance=ExtResource("7_jlsqs")]
+[node name="CarbonOre" parent="Start/Static Objects" instance=ExtResource("7_jlsqs")]
 position = Vector2(144, 560)
 
-[node name="PlacementGrid" type="TileMapLayer" parent="."]
-tile_set = ExtResource("7_nxtc6")
-
-[node name="Box" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(88, 456)
-
-[node name="Box2" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(608, 456)
-
-[node name="Box3" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(640, 456)
-
-[node name="Box4" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(672, 456)
-
-[node name="Box5" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(704, 456)
-
-[node name="Box6" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(728, 456)
-
-[node name="Box7" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(728, 472)
-
-[node name="Box8" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(728, 488)
-
-[node name="Box9" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(728, 512)
-
-[node name="Box10" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(728, 528)
-
-[node name="Box11" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(694, 528)
-
-[node name="Box12" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(648, 528)
-
-[node name="Box13" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(618, 528)
-
-[node name="Box14" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(616, 497)
-
-[node name="Box15" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(650, 497)
-
-[node name="Box16" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(682, 497)
-
-[node name="Box17" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(682, 552)
-
-[node name="Box18" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(618, 552)
-
-[node name="Box19" parent="." instance=ExtResource("8_jlsqs")]
-position = Vector2(640, 552)
-
-[node name="Metalwall" parent="." instance=ExtResource("9_q8u5g")]
+[node name="Metalwall" parent="Start/Static Objects" instance=ExtResource("9_q8u5g")]
 position = Vector2(272, 584)
 
-[node name="Metalwall2" parent="." instance=ExtResource("9_q8u5g")]
+[node name="Metalwall2" parent="Start/Static Objects" instance=ExtResource("9_q8u5g")]
 position = Vector2(432, 584)
 
-[node name="Metalwall3" parent="." instance=ExtResource("9_q8u5g")]
+[node name="Metalwall3" parent="Start/Static Objects" instance=ExtResource("9_q8u5g")]
 position = Vector2(112, 584)
 
-[node name="Metalwall4" parent="." instance=ExtResource("9_q8u5g")]
+[node name="Metalwall4" parent="Start/Static Objects" instance=ExtResource("9_q8u5g")]
 position = Vector2(672, 584)
 
-[node name="Metalwall5" parent="." instance=ExtResource("9_q8u5g")]
+[node name="Metalwall5" parent="Start/Static Objects" instance=ExtResource("9_q8u5g")]
 position = Vector2(760, 512)
 rotation = 1.57079
 
-[node name="Metalwall6" parent="." instance=ExtResource("9_q8u5g")]
+[node name="Metalwall6" parent="Start/Static Objects" instance=ExtResource("9_q8u5g")]
 position = Vector2(584, 512)
 rotation = -1.57079
 
-[node name="Bomb" parent="." instance=ExtResource("10_lhr70")]
-position = Vector2(248, 520)
+[node name="Ore Chunks" type="Node2D" parent="."]
 
-[node name="Bomb2" parent="." instance=ExtResource("10_lhr70")]
-position = Vector2(168, 496)
-
-[node name="Bomb3" parent="." instance=ExtResource("10_lhr70")]
-position = Vector2(320, 504)
+[node name="PlacementGrid" type="TileMapLayer" parent="."]
+tile_set = ExtResource("7_nxtc6")

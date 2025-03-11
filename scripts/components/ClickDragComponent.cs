@@ -11,27 +11,105 @@ public partial class ClickDragComponent : Node
     private Camera2D Camera;
     private RigidBody2D GrabbedObject;
     private bool ObjectHeld;
+    private int BodiesHeld;
     private PIDController PID;
+    private Array<PIDController> localPID = [];
+    private Area2D GrabArea;
+    private Array<RigidBody2D> GrabbedBodies = [];
     [Export] private int Damage = 2;
 
     public override void _Ready(){
         Signals = GetNode<CustomSignals>("/root/CustomSignals");
         Main = GetTree().GetRoot().GetNode<Node2D>("Main");
-        Walls = Main.GetNode<StaticBody2D>("Start/Walls");
         Parent = GetParent() as Node2D;
+        GrabArea = Parent.GetNode<Area2D>("GrabArea");
         PID = GetNode<PIDController>("PID");
         ObjectHeld = false;
+        BodiesHeld = 0;
     }
 
     public override void _PhysicsProcess(double delta){
-        HandleObject(delta);
-        ClickDrag();
+        //HandleObject(delta);
+        //ClickDrag();
+        ClickArea();
+        HandleObjects(delta);
         ClickDamage();
+        GD.Print(BodiesHeld);
     }
 
+    private void ClickArea()
+    {
+        if (Input.IsActionJustPressed("LeftClick") && BodiesHeld == 0)
+        {
+            var overlapping = GrabArea.GetOverlappingBodies();
+            
+            if (overlapping.Count == 0)
+                return;
+            
+            foreach (var body in overlapping)
+            {
+                if (body is RigidBody2D)
+                {
+                    BodiesHeld++;
+                    GrabbedBodies.Add(body as RigidBody2D);
+                    localPID.Add(new PIDController
+                    {
+                        proportionalGain = PID.proportionalGain,
+                        integralGain = PID.integralGain,
+                        derivativeGain = PID.derivativeGain,
+                        valueLastX = Parent.GlobalPosition.X,
+                        valueLastY = Parent.GlobalPosition.Y,
+                        errorLastX = Parent.GlobalPosition.X,
+                        errorLastY = Parent.GlobalPosition.Y
+                    });
+                }
+            }
+        }
+    }
+
+    private void HandleObjects(double delta)
+    {
+        if (Input.IsActionJustReleased("LeftClick"))
+        {
+            for (var i = 0; i < localPID.Count; i++)
+            {
+                localPID[i].valueLastX = Parent.GlobalPosition.X;
+                localPID[i].valueLastY = Parent.GlobalPosition.Y;
+                localPID[i].errorLastX = Parent.GlobalPosition.X;
+                localPID[i].errorLastY = Parent.GlobalPosition.Y;
+            }
+            
+            GrabbedBodies.Clear();
+            BodiesHeld = 0;
+        }
+        
+        if (BodiesHeld == 0)
+            return;
+        
+        for (var i = 0; i < GrabbedBodies.Count; i++ )
+        {
+            if (!IsInstanceValid(GrabbedBodies[i]))
+            {
+                GrabbedBodies.Remove(GrabbedBodies[i]);
+                BodiesHeld--;
+                return;
+            }
+            
+            var objPos = GrabbedBodies[i].GlobalPosition;
+            var targetPos = Parent.GlobalPosition;
+            var targetMove = new Vector2(localPID[i].UpdatePIDX(objPos.X, targetPos.X, (float)delta), localPID[i].UpdatePIDY(objPos.Y, targetPos.Y, (float)delta));
+
+            var objVelocity = GrabbedBodies[i].LinearVelocity;
+            objVelocity = targetMove;
+            GrabbedBodies[i].LinearVelocity = objVelocity;
+        }
+        
+        
+    }
+    
     private void ClickDrag(){
-        PhysicsDirectSpaceState2D worldState = Parent.GetWorld2D().DirectSpaceState;
-        PhysicsPointQueryParameters2D pointParams = new PhysicsPointQueryParameters2D
+        var worldState = Parent.GetWorld2D().DirectSpaceState;
+        var pointParams = new PhysicsPointQueryParameters2D
         {
             CollideWithBodies = true,
             Position = Parent.GlobalPosition
@@ -55,8 +133,8 @@ public partial class ClickDragComponent : Node
     }
 
     private void ClickDamage(){
-        PhysicsDirectSpaceState2D worldState = Parent.GetWorld2D().DirectSpaceState;
-        PhysicsPointQueryParameters2D pointParams = new PhysicsPointQueryParameters2D
+        var worldState = Parent.GetWorld2D().DirectSpaceState;
+        var pointParams = new PhysicsPointQueryParameters2D
         {
             CollideWithBodies = true,
             Position = Parent.GlobalPosition
@@ -82,6 +160,14 @@ public partial class ClickDragComponent : Node
     }
 
     private void HandleObject(double delta){
+        if (!IsInstanceValid(GrabbedObject))
+        {
+            GrabbedObject = null;
+            ObjectHeld = false;
+            return;
+        }
+            
+        
         if (Input.IsActionJustReleased("LeftClick") && ObjectHeld){
             GrabbedObject.GravityScale = 1f;
             GrabbedObject = null;
@@ -100,10 +186,6 @@ public partial class ClickDragComponent : Node
         objVelocity = targetMove;
         GrabbedObject.LinearVelocity = objVelocity;
         
-        GrabbedObject.ApplyTorque(GrabbedObject.GetAngleTo(Parent.GlobalPosition) * 1000);
-
-        if (GrabbedObject == null)
-            return;
 
         // Debug override
         // Vector2 targetPos = Parent.GlobalPosition;

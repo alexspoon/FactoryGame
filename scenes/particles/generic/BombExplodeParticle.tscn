@@ -1,0 +1,112 @@
+[gd_scene load_steps=12 format=3 uid="uid://bdmgd1ilp3gsn"]
+
+[ext_resource type="Texture2D" uid="uid://66pslyiih2ew" path="res://assets/particlesprites/trace_05.png" id="1_1i2h1"]
+
+[sub_resource type="Gradient" id="Gradient_v2asq"]
+offsets = PackedFloat32Array(0, 0.367816, 0.689655, 1)
+colors = PackedColorArray(0.917647, 0, 0.168627, 0.6, 1, 0.858824, 0, 1, 0.948871, 0.359812, 0, 1, 0.345098, 0.0117647, 0, 0.47451)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tk8v7"]
+gradient = SubResource("Gradient_v2asq")
+
+[sub_resource type="Curve" id="Curve_41mmf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.39797, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ny8fi"]
+curve = SubResource("Curve_41mmf")
+
+[sub_resource type="Curve" id="Curve_uhky8"]
+_data = [Vector2(0, 0.301925), 0.0, 0.0, 0, 0, Vector2(0.504647, 0.301925), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_o8ll8"]
+curve = SubResource("Curve_uhky8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o8564"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_o8ll8")
+color = Color(0.965467, 0.413754, 9.62615e-07, 1)
+color_ramp = SubResource("GradientTexture1D_tk8v7")
+emission_curve = SubResource("CurveTexture_ny8fi")
+turbulence_noise_strength = 1.13
+turbulence_noise_scale = 10.0
+turbulence_noise_speed_random = 0.0
+turbulence_influence_min = 0.05
+
+[sub_resource type="Animation" id="Animation_v2asq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Particle:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1i2h1"]
+resource_name = "autoload"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Particle:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tk8v7"]
+_data = {
+&"RESET": SubResource("Animation_v2asq"),
+&"autoload": SubResource("Animation_1i2h1")
+}
+
+[node name="BombExplode" type="Node2D"]
+
+[node name="Particle" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 64
+texture = ExtResource("1_1i2h1")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.85
+trail_lifetime = 0.25
+process_material = SubResource("ParticleProcessMaterial_o8564")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_tk8v7")
+}
+autoplay = "autoload"

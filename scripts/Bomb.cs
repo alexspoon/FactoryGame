@@ -10,6 +10,7 @@ public partial class Bomb : RigidBody2D
     private bool Lit;
     private Timer Fuse;
     private Area2D ExplosionRadius;
+    [Export] private PackedScene ExplosionParticle;
     [Export] private int Damage;
     [Export] private float ExplosionForce;
     
@@ -42,19 +43,24 @@ public partial class Bomb : RigidBody2D
         Array<StaticBody2D> bodiesToDamage = [];
         foreach (var body in overlapping)
         {
-            if (body is StaticBody2D)
+            var rigidbody = body as RigidBody2D;
+            var staticbody = body as StaticBody2D;
+            if (staticbody != null)
             {
-                bodiesToDamage.Add(body as StaticBody2D);
-            } else if (body is RigidBody2D)
+                bodiesToDamage.Add(staticbody);
+            } else if (rigidbody != null)
             {
-                var rigid = body as RigidBody2D;
-                var impulseDir = rigid.GlobalPosition - GlobalPosition * ExplosionForce;
-                rigid.ApplyCentralImpulse(impulseDir);
+                var impulseDir = (rigidbody.GlobalPosition - GlobalPosition).Normalized() * ExplosionForce * 10f;
+                GD.Print(impulseDir);
+                rigidbody.ApplyCentralImpulse(impulseDir);
             }
         }
         
-        GD.Print("overlapping bodies: " + bodiesToDamage);
+        var explosionParticle = ExplosionParticle.Instantiate() as Node2D;
+        explosionParticle.GlobalPosition = GlobalPosition;
+        AddSibling(explosionParticle);
+        //GD.Print("overlapping bodies: " + bodiesToDamage);
         Signals.EmitSignal(nameof(Signals.OreDamage), bodiesToDamage, Damage);
-        //QueueFree();
+        QueueFree();
     }
 }
