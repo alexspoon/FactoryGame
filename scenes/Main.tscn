@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://drx3x3mxxergs"]
+[gd_scene load_steps=19 format=3 uid="uid://drx3x3mxxergs"]
 
 [ext_resource type="PackedScene" uid="uid://mr58jopv30w8" path="res://scenes/PlayerMouse.tscn" id="1_0bbpv"]
 [ext_resource type="FontFile" uid="uid://vygr1pbf71kn" path="res://assets/fonts/yoster.ttf" id="1_wp0k4"]
@@ -15,6 +15,13 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_bjd11"]
 font = ExtResource("1_wp0k4")
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qmy6f"]
+font = ExtResource("1_wp0k4")
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Gradient" id="Gradient_rarhs"]
 offsets = PackedFloat32Array(0, 0.298701, 1)
@@ -41,6 +48,13 @@ label_settings = SubResource("LabelSettings_bjd11")
 script = ExtResource("2_bjd11")
 MaxFPS = 165
 
+[node name="GrabModeLabel" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 56.0
+offset_right = 72.0
+offset_bottom = 79.0
+label_settings = SubResource("LabelSettings_qmy6f")
+
 [node name="Background" type="TextureRect" parent="."]
 z_index = -1000
 z_as_relative = false
@@ -52,14 +66,11 @@ texture = SubResource("GradientTexture2D_vcsgt")
 
 [node name="PlayerMouse" parent="." instance=ExtResource("1_0bbpv")]
 z_index = 100
+position = Vector2(640, 360)
 
 [node name="Camera" type="Camera2D" parent="."]
+position = Vector2(640, 360)
 process_callback = 0
-limit_left = 0
-limit_top = 0
-limit_right = 1280
-limit_bottom = 720
-limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="CameraFollowComponent" parent="Camera" instance=ExtResource("2_vcsgt")]

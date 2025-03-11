@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5f1tuij8qshh"]
+[gd_scene load_steps=10 format=3 uid="uid://b5f1tuij8qshh"]
 
 [ext_resource type="Script" uid="uid://0dr1ipt4pd41" path="res://scripts/Bomb.cs" id="1_3e7g0"]
 [ext_resource type="Texture2D" uid="uid://cxijhpb1aqxwi" path="res://assets/sprites/placeholderbomb.png" id="1_xsqdb"]
@@ -10,8 +10,45 @@ bounce = 0.25
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e7g0"]
 radius = 7.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xsqdb"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_31oai"]
 radius = 64.0
+
+[sub_resource type="Animation" id="Animation_31oai"]
+resource_name = "BombLit"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.7, 0, 1), Color(1, 0.133333, 0, 1), Color(1, 0.7, 0, 1), Color(1, 0.133333, 0, 1), Color(1, 0.7, 0, 1), Color(1, 0.133333, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pmu6x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rrryy"]
+_data = {
+&"BombLit": SubResource("Animation_31oai"),
+&"RESET": SubResource("Animation_pmu6x")
+}
 
 [node name="Bomb" type="RigidBody2D"]
 mass = 5.0
@@ -23,6 +60,7 @@ script = ExtResource("1_3e7g0")
 ExplosionParticle = ExtResource("2_31oai")
 Damage = 100
 ExplosionForce = 250.0
+ExplosionRange = 64.0
 
 [node name="Fuse" type="Timer" parent="."]
 process_callback = 0
@@ -39,5 +77,10 @@ shape = SubResource("CircleShape2D_3e7g0")
 [node name="ExplosionRadius" type="Area2D" parent="."]
 
 [node name="ExplosionRange" type="CollisionShape2D" parent="ExplosionRadius"]
-shape = SubResource("CircleShape2D_xsqdb")
+shape = SubResource("CircleShape2D_31oai")
 debug_color = Color(0.936163, 0.272011, 0.180958, 0.0705882)
+
+[node name="BombAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rrryy")
+}

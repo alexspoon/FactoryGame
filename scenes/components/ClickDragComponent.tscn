@@ -7,7 +7,3 @@
 script = ExtResource("1_4iua5")
 
 [node name="PID" parent="." instance=ExtResource("2_qtlwx")]
-
-[node name="PIDX" parent="." instance=ExtResource("2_qtlwx")]
-
-[node name="PIDY" parent="." instance=ExtResource("2_qtlwx")]
