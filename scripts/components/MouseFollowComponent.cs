@@ -5,16 +5,20 @@ public partial class MouseFollowComponent : Node
 {
     private Camera2D Camera;
     private Node2D Parent;
+    private GpuParticles2D MouseParticles;
     
     public override void _Ready()
     {
-        Parent = GetParent() as Node2D;
-        Camera = GetTree().GetRoot().GetNode("Main/Camera") as Camera2D;
+        Parent = GetParent<Node2D>();
+        Camera = GetTree().GetRoot().GetNode<Camera2D>("Main/Player/Camera");
+        MouseParticles = Parent.GetNode<GpuParticles2D>("Particles/MouseParticles");
         Input.MouseMode = Input.MouseModeEnum.Hidden;
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        Parent.GlobalPosition = Camera.GetGlobalMousePosition();
+        var mousePos = Camera.GetGlobalMousePosition();
+        MouseParticles.GlobalPosition = mousePos;
+        Parent.GlobalPosition = mousePos;
     }
 }

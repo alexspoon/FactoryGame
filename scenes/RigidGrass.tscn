@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkuuomd4ls78l"]
+
+[ext_resource type="Texture2D" uid="uid://cnukpi3vr578u" path="res://assets/spritesheets/TileAtlas.png" id="1_48a3j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3e22n"]
+size = Vector2(16, 16)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_x434c"]
+polygon = PackedVector2Array(-8, 8, 8, 8, 8, -8, -8, -8)
+
+[node name="RigidGrass" type="RigidBody2D"]
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 2
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_48a3j")
+region_enabled = true
+region_rect = Rect2(32, 0, 16, 16)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3e22n")
+
+[node name="Occluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_x434c")

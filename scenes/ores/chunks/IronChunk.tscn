@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bf0xqp0oki7m5"]
+[gd_scene load_steps=5 format=3 uid="uid://bf0xqp0oki7m5"]
 
 [ext_resource type="Texture2D" uid="uid://dufi32tu6hpvy" path="res://assets/sprites/ironchunkbigger.png" id="1_pk5my"]
 
@@ -7,6 +7,9 @@ friction = 0.75
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvyge"]
 size = Vector2(16, 16)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_pk5my"]
+polygon = PackedVector2Array(-8, -8, -8, 8, 8, 8, 8, -8)
 
 [node name="IronChunk" type="RigidBody2D"]
 mass = 4.0
@@ -24,3 +27,6 @@ shape = SubResource("RectangleShape2D_kvyge")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(8.9407e-08, 8.9407e-08)
 scale = Vector2(0.9, 0.9)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_pk5my")

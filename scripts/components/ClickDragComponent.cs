@@ -9,7 +9,6 @@ public partial class ClickDragComponent : Node
     private Node2D Main;
     private StaticBody2D Walls;
     private Node2D Parent;
-    private Camera2D Camera;
     private RigidBody2D GrabbedObject;
     private int BodiesHeld;
     private PIDController PID;
@@ -21,16 +20,20 @@ public partial class ClickDragComponent : Node
     [Export] private int Damage = 2;
     [Export] private float GrabRange = 32f;
     private bool GrabMultiple;
-    private Label GrabModeLabel;
+    private GpuParticles2D DragParticles;
+    private GpuParticles2D SingleParticles;
+    private GpuParticles2D ClickParticles;
 
     public override void _Ready(){
         Signals = GetNode<CustomSignals>("/root/CustomSignals");
         Main = GetTree().GetRoot().GetNode<Node2D>("Main");
-        GrabModeLabel = Main.GetNode<Label>("GrabModeLabel");
         Parent = GetParent() as Node2D;
         GrabArea = Parent.GetNode<Area2D>("GrabArea");
         GrabShape = GrabArea.GetNode<CollisionShape2D>("GrabCollider");
         PID = GetNode<PIDController>("PID");
+        DragParticles = Parent.GetNode<GpuParticles2D>("Particles/DragParticles");
+        SingleParticles = Parent.GetNode<GpuParticles2D>("Particles/SingleParticles");
+        ClickParticles = Parent.GetNode<GpuParticles2D>("Particles/ClickParticles");
         BodiesHeld = 0;
         
         LocalShape = new CircleShape2D();
@@ -47,6 +50,8 @@ public partial class ClickDragComponent : Node
     
     private void HandleClick()
     {
+        if (Input.IsActionJustPressed("LeftClick")) ClickParticles.Emitting = true;
+        
         if (!GrabMultiple)
         {
             ClickDrag();
@@ -123,9 +128,11 @@ public partial class ClickDragComponent : Node
         }
     }
     private void HandleObject(double delta){
+        SingleParticles.GlobalPosition = Parent.GlobalPosition;
         if (!IsInstanceValid(GrabbedObject))
         {
             GrabbedObject = null;
+            SingleParticles.Emitting = false;
             BodiesHeld = 0;
             return;
         }
@@ -134,12 +141,15 @@ public partial class ClickDragComponent : Node
         if (Input.IsActionJustReleased("LeftClick") && BodiesHeld == 1){
             GrabbedObject.GravityScale = 1f;
             GrabbedObject = null;
+            SingleParticles.Emitting = false;
             BodiesHeld = 0;
         }
         
         if (BodiesHeld == 0)
             return;
-        
+
+        SingleParticles.GlobalPosition = GrabbedObject.GlobalPosition;
+        SingleParticles.Emitting = true;
         Vector2 objPos = GrabbedObject.GlobalPosition;
         Vector2 targetPos = Parent.GlobalPosition;
         
@@ -148,21 +158,16 @@ public partial class ClickDragComponent : Node
         var objVelocity = GrabbedObject.LinearVelocity;
         objVelocity = targetMove;
         GrabbedObject.LinearVelocity = objVelocity;
-        
-
-        // Debug override
-        // Vector2 targetPos = Parent.GlobalPosition;
-        // Vector2 posLerp = GrabbedObject.GlobalPosition.Lerp(targetPos, 1f);
-        // GrabbedObject.GlobalPosition = posLerp;
-        // GrabbedObject.LinearVelocity = Vector2.Zero;
     }
     private void HandleObjects(double delta)
     {
+        DragParticles.GlobalPosition = Parent.GlobalPosition;
         if (Input.IsActionJustReleased("LeftClick"))
         {
             localPID.Clear();
             GrabbedBodies.Clear();
             BodiesHeld = 0;
+            DragParticles.Emitting = false;
         }
         
         if (BodiesHeld == 0)
@@ -174,9 +179,10 @@ public partial class ClickDragComponent : Node
             {
                 GrabbedBodies.Clear();
                 BodiesHeld = 0;
+                DragParticles.Emitting = false;
                 return;
             }
-            
+            DragParticles.Emitting = true;
             var objPos = GrabbedBodies[i].GlobalPosition;
             var targetPos = Parent.GlobalPosition;
             var targetMove = new Vector2(localPID[i].UpdatePIDX(objPos.X, targetPos.X, (float)delta), localPID[i].UpdatePIDY(objPos.Y, targetPos.Y, (float)delta));
@@ -190,6 +196,7 @@ public partial class ClickDragComponent : Node
     }
     
     private void ClickDamage(){
+        ClickParticles.GlobalPosition = Parent.GlobalPosition;
         var worldState = Parent.GetWorld2D().DirectSpaceState;
         var pointParams = new PhysicsPointQueryParameters2D
         {
@@ -219,15 +226,6 @@ public partial class ClickDragComponent : Node
     {
         if (Input.IsActionJustPressed("KeyQ") && BodiesHeld == 0)
             GrabMultiple = !GrabMultiple;
-        
-        if (!GrabMultiple)
-        {
-            GrabModeLabel.Text = "Grab mode: Single";
-        }
-        else
-        {
-            GrabModeLabel.Text = "Grab mode: Multiple";
-        }
     }
     
 }

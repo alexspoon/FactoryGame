@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://drx3x3mxxergs"]
+[gd_scene load_steps=20 format=3 uid="uid://drx3x3mxxergs"]
 
 [ext_resource type="PackedScene" uid="uid://mr58jopv30w8" path="res://scenes/PlayerMouse.tscn" id="1_0bbpv"]
 [ext_resource type="FontFile" uid="uid://vygr1pbf71kn" path="res://assets/fonts/yoster.ttf" id="1_wp0k4"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ckxrha8lfxx37" path="res://scenes/PropBox.tscn" id="8_jlsqs"]
 [ext_resource type="PackedScene" uid="uid://dwqsyu86mktu6" path="res://scenes/MetalWallDebug.tscn" id="9_q8u5g"]
 [ext_resource type="PackedScene" uid="uid://b5f1tuij8qshh" path="res://scenes/Bomb.tscn" id="10_lhr70"]
+[ext_resource type="PackedScene" uid="uid://ojshn3h2hs7l" path="res://scenes/Player.tscn" id="13_qmy6f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bjd11"]
 font = ExtResource("1_wp0k4")
@@ -23,12 +24,12 @@ font = ExtResource("1_wp0k4")
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_rarhs"]
+[sub_resource type="Gradient" id="Gradient_qmy6f"]
 offsets = PackedFloat32Array(0, 0.298701, 1)
 colors = PackedColorArray(0.684017, 0.313054, 0, 1, 0.690941, 0.539381, 0.279599, 1, 0.525101, 0.525101, 0.525101, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_vcsgt"]
-gradient = SubResource("Gradient_rarhs")
+gradient = SubResource("Gradient_qmy6f")
 fill_to = Vector2(0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rvslj"]
@@ -246,3 +247,6 @@ rotation = -1.57079
 
 [node name="PlacementGrid" type="TileMapLayer" parent="."]
 tile_set = ExtResource("7_nxtc6")
+
+[node name="Player" parent="." instance=ExtResource("13_qmy6f")]
+position = Vector2(584, 656)

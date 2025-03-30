@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://b43rahrr6j0qj"]
+
+[ext_resource type="PackedScene" uid="uid://c56wqtvq7c8g3" path="res://scenes/TileMap.tscn" id="1_y5qx4"]
+[ext_resource type="PackedScene" uid="uid://ojshn3h2hs7l" path="res://scenes/Player.tscn" id="2_y5qx4"]
+[ext_resource type="PackedScene" uid="uid://mr58jopv30w8" path="res://scenes/PlayerMouse.tscn" id="3_aagnl"]
+[ext_resource type="Texture2D" uid="uid://bvnbr0t7jmphm" path="res://assets/sprites/2d_lights_and_shadows_neutral_point_light.webp" id="3_hw0y3"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_y5qx4"]
+noise_type = 3
+frequency = 0.05
+fractal_gain = 0.0
+fractal_weighted_strength = 1.0
+domain_warp_amplitude = 0.37
+domain_warp_frequency = -0.005
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_aagnl"]
+noise = SubResource("FastNoiseLite_y5qx4")
+
+[node name="Main" type="Node2D"]
+
+[node name="TileMap" parent="." instance=ExtResource("1_y5qx4")]
+tile_map_data = PackedByteArray()
+ProceduralNoiseTexture = SubResource("NoiseTexture2D_aagnl")
+Width = 512
+Height = 512
+
+[node name="Player" parent="." instance=ExtResource("2_y5qx4")]
+position = Vector2(0, -16)
+
+[node name="PlayerMouse" parent="." instance=ExtResource("3_aagnl")]
+
+[node name="PointLight2D" type="PointLight2D" parent="PlayerMouse"]
+process_physics_priority = 1
+enabled = false
+color = Color(1, 0.917293, 0.577377, 1)
+energy = 2.0
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("3_hw0y3")
+texture_scale = 2.0
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.51, 0.853, 1, 0.356863)
+metadata/_edit_use_anchors_ = true

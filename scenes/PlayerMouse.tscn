@@ -1,13 +1,132 @@
-[gd_scene load_steps=5 format=3 uid="uid://mr58jopv30w8"]
+[gd_scene load_steps=19 format=3 uid="uid://mr58jopv30w8"]
 
-[ext_resource type="Texture2D" uid="uid://cnmnjjcrsifxa" path="res://assets/sprites/crosshair.png" id="1_js21a"]
+[ext_resource type="Texture2D" uid="uid://c5jrxh0vqx6f8" path="res://assets/sprites/crosshair001.png" id="1_1ry5k"]
 [ext_resource type="PackedScene" uid="uid://cuwruvxfqburf" path="res://scenes/components/MouseFollowComponent.tscn" id="2_js21a"]
 [ext_resource type="PackedScene" uid="uid://q3a3cn8rbobr" path="res://scenes/components/ClickDragComponent.tscn" id="3_0ays5"]
+[ext_resource type="PackedScene" uid="uid://dtn6aaou27lj7" path="res://scenes/components/TilemapInteractComponent.tscn" id="4_1ry5k"]
+[ext_resource type="Script" uid="uid://6dic3lpou7g2" path="res://scripts/components/TilemapInteractComponent.cs" id="5_vd08c"]
+[ext_resource type="Texture2D" uid="uid://p5nnkr03j3yb" path="res://assets/sprites/TileHighlight.png" id="6_vd08c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u480a"]
 radius = 32.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_u480a"]
+blend_mode = 3
+
+[sub_resource type="Gradient" id="Gradient_0ays5"]
+offsets = PackedFloat32Array(0.106667, 0.28, 0.453333, 0.68, 0.826667, 1)
+colors = PackedColorArray(0.982039, 0.919289, 0, 1, 4.62055e-06, 0.573357, 0.774916, 1, 0.682417, 0.000322476, 0.675001, 1, 1, 0.916667, 0, 1, 0, 0.572549, 0.776471, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_u480a"]
+gradient = SubResource("Gradient_0ays5")
+
+[sub_resource type="Curve" id="Curve_0ays5"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1.5063), 0.0, 0.0, 0, 0, Vector2(1, 0), -6.86272, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_vd08c"]
+curve = SubResource("Curve_0ays5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bkn5r"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(1, 1, 0)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 35.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+inherit_velocity_ratio = 0.1
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -10.0
+radial_accel_max = -10.0
+tangential_accel_min = 10.0
+tangential_accel_max = 10.0
+scale_curve = SubResource("CurveTexture_vd08c")
+color_ramp = SubResource("GradientTexture1D_u480a")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 1.0
+collision_use_scale = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0ays5"]
+blend_mode = 3
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0ays5"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(1, 1, 0)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 15.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+inherit_velocity_ratio = 0.1
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -100.0
+radial_accel_max = -10.0
+tangential_accel_min = -100.0
+tangential_accel_max = 100.0
+scale_curve = SubResource("CurveTexture_vd08c")
+color_ramp = SubResource("GradientTexture1D_u480a")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 1.0
+collision_use_scale = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u480a"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(1, 1, 0)
+inherit_velocity_ratio = 0.1
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -100.0
+radial_accel_max = -3.25
+tangential_accel_min = -100.0
+tangential_accel_max = -100.0
+scale_curve = SubResource("CurveTexture_vd08c")
+color_ramp = SubResource("GradientTexture1D_u480a")
+turbulence_noise_strength = 20.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1ry5k"]
+blend_mode = 2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1ry5k"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(1, 1, 0)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+inherit_velocity_ratio = 0.25
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+radial_velocity_min = 9.99998
+radial_velocity_max = 9.99998
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_vd08c")
+color_ramp = SubResource("GradientTexture1D_u480a")
+turbulence_enabled = true
+turbulence_noise_scale = 0.0
+
 [node name="PlayerMouse" type="Node2D"]
+physics_interpolation_mode = 1
 
 [node name="GrabArea" type="Area2D" parent="."]
 input_pickable = false
@@ -17,8 +136,69 @@ priority = 100
 shape = SubResource("CircleShape2D_u480a")
 
 [node name="Crosshair" type="Sprite2D" parent="."]
-texture = ExtResource("1_js21a")
+z_index = 100
+z_as_relative = false
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_1ry5k")
 
 [node name="MouseFollowComponent" parent="." instance=ExtResource("2_js21a")]
 
 [node name="ClickDragComponent" parent="." instance=ExtResource("3_0ays5")]
+
+[node name="TilemapInteractComponent" parent="." instance=ExtResource("4_1ry5k")]
+script = ExtResource("5_vd08c")
+_tileDamage = 5
+
+[node name="Particles" type="Node2D" parent="."]
+physics_interpolation_mode = 2
+visible = false
+
+[node name="DragParticles" type="GPUParticles2D" parent="Particles"]
+top_level = true
+material = SubResource("CanvasItemMaterial_u480a")
+emitting = false
+amount = 1024
+lifetime = 0.5
+fixed_fps = 240
+collision_base_size = 0.5
+process_material = SubResource("ParticleProcessMaterial_bkn5r")
+
+[node name="SingleParticles" type="GPUParticles2D" parent="Particles"]
+top_level = true
+material = SubResource("CanvasItemMaterial_0ays5")
+emitting = false
+amount = 512
+lifetime = 0.5
+fixed_fps = 240
+collision_base_size = 0.5
+process_material = SubResource("ParticleProcessMaterial_0ays5")
+
+[node name="ClickParticles" type="GPUParticles2D" parent="Particles"]
+top_level = true
+z_index = 1
+material = SubResource("CanvasItemMaterial_0ays5")
+emitting = false
+amount = 64
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.3
+fixed_fps = 240
+collision_base_size = 0.5
+process_material = SubResource("ParticleProcessMaterial_u480a")
+
+[node name="MouseParticles" type="GPUParticles2D" parent="Particles"]
+top_level = true
+z_index = 1
+material = SubResource("CanvasItemMaterial_1ry5k")
+emitting = false
+amount = 128
+lifetime = 0.2
+fixed_fps = 240
+collision_base_size = 0.5
+process_material = SubResource("ParticleProcessMaterial_1ry5k")
+
+[node name="TileHighlight" type="Sprite2D" parent="."]
+visible = false
+top_level = true
+texture = ExtResource("6_vd08c")

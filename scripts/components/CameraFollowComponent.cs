@@ -1,28 +1,43 @@
 using Godot;
-using System;
 
 public partial class CameraFollowComponent : Node
 {
-    private Node2D Main;
-    private Camera2D Parent;
-    private Node2D PlayerMouse;
-    private Vector2 CameraLerp;
-
+    [Export] private bool _followPlayer = true;
+    private Camera2D _parent;
+    private RigidBody2D _player;
+    private Control _playerUI;
+    private Label _fpsLabel;
+    
     public override void _Ready()
     {
-        Parent = GetParent() as Camera2D;
-        Main = Parent.GetParent() as Node2D;
-        PlayerMouse = Main.GetNode<Node2D>("PlayerMouse");
+        _parent = GetParent() as Camera2D;
+        _player = _parent.GetParent<RigidBody2D>();
+        _playerUI = _player.GetNode<Control>("UILayer/UI");
+        _fpsLabel = _playerUI.GetNode<Label>("FPS");
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        HandleInput();
+        _fpsLabel.Text = "" + Engine.GetFramesPerSecond();
+        HandleZoom();
+
+        if (_followPlayer) FollowPlayer();
+        else FollowMouse();
     }
 
-    private void HandleInput(){
-        Vector2 zoom = Parent.Zoom.Clamp(1, 10);
+    private void FollowPlayer()
+    {
+        _parent.GlobalPosition = _player.GlobalPosition;
+    }
 
+    private void FollowMouse()
+    {
+        _parent.GlobalPosition = _parent.GetGlobalMousePosition();
+    }
+    
+    private void HandleZoom(){
+        Vector2 zoom = _parent.Zoom.Clamp(1, 10);
+        
         if (Input.IsActionJustPressed("ScrollUp")){
             zoom += new Vector2(0.25f, 0.25f);
         }
@@ -32,13 +47,10 @@ public partial class CameraFollowComponent : Node
         }
 
         if (Input.IsActionJustPressed("MiddleClick")){
-            zoom = new Vector2(1f, 1f);
+            zoom = new Vector2(2f, 2f);
         }
-
-        if (Input.IsActionPressed("RightClick")){
-            Parent.GlobalPosition = PlayerMouse.GlobalPosition;
-        }
-
-        Parent.Zoom = zoom;
+        
+        // _playerUI.Scale = zoom.Inverse() * 2;
+        _parent.Zoom = zoom;
     }
 }

@@ -1,0 +1,124 @@
+[gd_scene load_steps=17 format=3 uid="uid://ojshn3h2hs7l"]
+
+[ext_resource type="PackedScene" uid="uid://cy8gt1obpujmv" path="res://scenes/PIDController.tscn" id="1_mdl7e"]
+[ext_resource type="Texture2D" uid="uid://b5et814kbdqp4" path="res://assets/sprites/placeholderplayer.png" id="1_p0vlq"]
+[ext_resource type="PackedScene" uid="uid://y352tq53b605" path="res://scenes/components/PlayerMoveComponent.tscn" id="1_v6fml"]
+[ext_resource type="Script" uid="uid://bh4riarj0acp4" path="res://scripts/components/PlayerMoveComponent.cs" id="2_3li8b"]
+[ext_resource type="PackedScene" uid="uid://dgc6gf8ey6ato" path="res://scenes/PlayerUI.tscn" id="5_70d11"]
+[ext_resource type="PackedScene" uid="uid://b1hkec4uabnir" path="res://scenes/components/CameraFollowComponent.tscn" id="6_70d11"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3li8b"]
+friction = 0.5
+bounce = 0.2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6fml"]
+size = Vector2(16, 32)
+
+[sub_resource type="Gradient" id="Gradient_mdl7e"]
+offsets = PackedFloat32Array(0, 0.287356, 0.712644)
+colors = PackedColorArray(0.999969, 0.488791, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qu4a1"]
+gradient = SubResource("Gradient_mdl7e")
+
+[sub_resource type="Curve" id="Curve_70d11"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cw2d6"]
+curve = SubResource("Curve_70d11")
+
+[sub_resource type="Curve" id="Curve_khinc"]
+_data = [Vector2(0, 0.508795), 0.0, 12.4575, 0, 0, Vector2(0.100434, 1), -0.0818189, -0.0818189, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bruh7"]
+curve = SubResource("Curve_khinc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6eyey"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(8, 1, 0)
+inherit_velocity_ratio = 0.1
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 200.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 98, 0)
+scale_curve = SubResource("CurveTexture_bruh7")
+color_ramp = SubResource("GradientTexture1D_qu4a1")
+emission_curve = SubResource("CurveTexture_cw2d6")
+turbulence_enabled = true
+turbulence_noise_scale = 0.0
+turbulence_influence_min = 0.05
+collision_mode = 2
+collision_use_scale = true
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_mdl7e"]
+polygon = PackedVector2Array(-8, -17, -8, 15, 8, 15, 8, -17)
+
+[node name="Player" type="RigidBody2D"]
+mass = 8.0
+physics_material_override = SubResource("PhysicsMaterial_3li8b")
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 8
+
+[node name="PID" parent="." instance=ExtResource("1_mdl7e")]
+proportionalGain = 2250.0
+integralGain = 500.0
+derivativeGain = 5.0
+
+[node name="PlayerMoveComponent" parent="." instance=ExtResource("1_v6fml")]
+script = ExtResource("2_3li8b")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_p0vlq")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v6fml")
+
+[node name="JetpackParticles" type="GPUParticles2D" parent="."]
+physics_interpolation_mode = 2
+visible = false
+top_level = true
+z_index = -1
+position = Vector2(0, 17)
+emitting = false
+amount = 512
+fixed_fps = 60
+collision_base_size = 0.5
+process_material = SubResource("ParticleProcessMaterial_6eyey")
+
+[node name="JetpackMarker" type="Marker2D" parent="."]
+position = Vector2(0, 16)
+
+[node name="HeadMarker" type="Marker2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(0, 1)
+occluder = SubResource("OccluderPolygon2D_mdl7e")
+
+[node name="Camera" type="Camera2D" parent="."]
+top_level = true
+zoom = Vector2(2, 2)
+process_callback = 0
+limit_enabled = false
+position_smoothing_enabled = true
+
+[node name="CameraFollowComponent" parent="Camera" instance=ExtResource("6_70d11")]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="UILayer" instance=ExtResource("5_70d11")]
+anchor_left = -0.25
+anchor_top = -0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+offset_left = 320.0
+offset_top = 180.0
+offset_right = 320.0
+offset_bottom = 180.0
+pivot_offset = Vector2(320, 180)

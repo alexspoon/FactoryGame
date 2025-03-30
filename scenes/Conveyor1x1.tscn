@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dwpwaoesulnpc"]
+[gd_scene load_steps=7 format=3 uid="uid://dwpwaoesulnpc"]
 
 [ext_resource type="Texture2D" uid="uid://bwkexck1iqerc" path="res://assets/sprites/conveyorbelt16x16.png" id="1_rqlev"]
 [ext_resource type="PackedScene" uid="uid://btv504dlpvbc3" path="res://scenes/components/ConveyorMoveComponent.tscn" id="2_r7v3a"]
@@ -14,6 +14,9 @@ size = Vector2(16, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r7v3a"]
 size = Vector2(16, 16)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r7v3a"]
+polygon = PackedVector2Array(-8, -8, -8, 8, 8, 8, 8, -8)
 
 [node name="Conveyor 1x1" type="StaticBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_r7v3a")
@@ -34,3 +37,6 @@ texture = ExtResource("1_rqlev")
 shape = SubResource("RectangleShape2D_r7v3a")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_r7v3a")

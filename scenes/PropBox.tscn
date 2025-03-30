@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckxrha8lfxx37"]
+[gd_scene load_steps=5 format=3 uid="uid://ckxrha8lfxx37"]
 
 [ext_resource type="Texture2D" uid="uid://djjikx2jil1fi" path="res://assets/sprites/metalcrate.png" id="1_lj7ml"]
 
@@ -7,6 +7,9 @@ bounce = 0.1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0bbpv"]
 size = Vector2(16, 16)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_lj7ml"]
+polygon = PackedVector2Array(-8, -8, -8, 8, 8, 8, 8, -8)
 
 [node name="Box" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_rarhs")
@@ -21,3 +24,6 @@ texture = ExtResource("1_lj7ml")
 shape = SubResource("RectangleShape2D_0bbpv")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_lj7ml")
